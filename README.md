@@ -1,2 +1,2 @@
-# VendorPrice
- Displays the vendor price on the tooltip when not at a vendor
+## VendorPrice
+ Shows the vendor price when not at a vendor
