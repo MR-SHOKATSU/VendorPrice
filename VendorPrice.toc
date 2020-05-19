@@ -1,0 +1,8 @@
+## Interface: 11304
+## Version: 20.5.19
+## Title: VendorPrice
+## Notes: Shows the vendor price on item tooltip when not at a vendor
+## Author: Shokatsu
+## DefaultState: enabled
+
+VendorPrice.lua
