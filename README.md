@@ -1,6 +1,5 @@
 ## VendorPrice
- A World of Warcraft Classic Add-On that integrates into the native user interface. 
- It provides an advanced minimalistic item tooltip by displaying the vendor price when not at a vendor. 
+ A World of Warcraft Classic Add-On that integrates into the native user interface and provides an advanced but minimalistic item tooltip by displaying the vendor price when not at a vendor. 
  
 ### Install
 - Download the release from WoWInterface https://www.wowinterface.com/downloads/fileinfo.php?id=25582
