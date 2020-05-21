@@ -1,50 +1,42 @@
-local count = nil
 local debugMode = false
+if debugMode then print("VendorPrice: Debug Mode loaded.") end
+
+local count = nil
 local SetCount = function(itemCount) count = itemCount if debugMode then print(count) end end
 local ResetCount = function() count = nil end
 
-local SetItem = {
+local SetItemTable = {
 	SetBagItem = function(_, bagID, slot)
-		local count = select(2, GetContainerItemInfo(bagID, slot))
-		SetCount(count)
+		SetCount(select(2, GetContainerItemInfo(bagID, slot)))
 	end,
 	SetAuctionItem = function(_, type, index)
-		local count = select(3, GetAuctionItemInfo(type, index))
-		SetCount(count)
+		SetCount(select(3, GetAuctionItemInfo(type, index)))
 	end,
 	SetAuctionSellItem = function(_)
-		local count = select(3, GetAuctionSellItemInfo())
-		SetCount(count)
+		SetCount(select(3, GetAuctionSellItemInfo()))
 	end,
 	SetQuestLogItem = function(_, _, index)
-		local count = select(3, GetQuestLogRewardInfo(index))
-		SetCount(count)
+		SetCount(select(3, GetQuestLogRewardInfo(index)))
 	end,
 	SetInboxItem = function(_, index, itemIndex)
-		local count
 		if itemIndex then
-			count = select(4, GetInboxItem(index, itemIndex))
+			SetCount(select(4, GetInboxItem(index, itemIndex)))
 		else
-			-- count, _ = select(14, GetInboxHeaderInfo(index))
-			count = select(2, select(14, GetInboxHeaderInfo(index)))
+			SetCount(select(1, select(14, GetInboxHeaderInfo(index))))
 		end
-		SetCount(count)
 	end,
 	SetSendMailItem = function(_, index)
-		local count = select(4, GetSendMailItem(index))
-		SetCount(count)
+		SetCount(select(4, GetSendMailItem(index)))
 	end,
 	SetTradePlayerItem = function(_, index)
-		local count = select(3, GetTradePlayerItemInfo(index))
-		SetCount(count)
+		SetCount(select(3, GetTradePlayerItemInfo(index)))
 	end,
 	SetTradeTargetItem = function(_, index)
-		local count = select(3, GetTradeTargetItemInfo(index))
-		SetCount(count)
+		SetCount(select(3, GetTradeTargetItemInfo(index)))
 	end,
 }
 
-for functionName, hookfunc in pairs (SetItem) do
+for functionName, hookfunc in pairs (SetItemTable) do
 	hooksecurefunc(GameTooltip, functionName, hookfunc)
 end
 
