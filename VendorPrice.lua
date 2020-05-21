@@ -1,5 +1,6 @@
 local count = nil
-local SetCount = function(itemCount) count = itemCount end
+local debugMode = false
+local SetCount = function(itemCount) count = itemCount if debugMode then print(count) end end
 
 local SetItem = {
 	SetAuctionItem = function(_, type, index)
@@ -14,14 +15,14 @@ local SetItem = {
 		local count = select(2, GetContainerItemInfo(bagID, slot))
 		SetCount(count)
 	end,
-	SetInventoryItem = function(_, unit, slot)
-		if type(slot) ~= "number" or slot < 0 then return end
-		local count = 1
-		if slot < 20 or slot > 39 and slot < 68 then
-			count = GetInventoryItemCount(unit, slot)
-		end
-		SetCount(count)
-	end,	
+	-- SetInventoryItem = function(_, unit, slot)
+	-- 	if type(slot) ~= "number" or slot < 0 then return end
+	-- 	local count = 1
+	-- 	if slot < 20 or slot > 39 and slot < 68 then
+	-- 		count = GetInventoryItemCount(unit, slot)
+	-- 	end
+	-- 	SetCount(count)
+	-- end,
 	SetQuestLogItem = function(_, _, index)
 		local count = select(3, GetQuestLogRewardInfo(index))
 		SetCount(count)
@@ -62,10 +63,12 @@ local OnTooltipSetItem = function(self, ...)
 	if vendorPrice then
 		if vendorPrice == 0 then
 			self:AddLine("No sell price", 255, 255, 255)
+			SetCount(nil)
 		else
 			count = count or 1
 			price = GetCoinTextureString(vendorPrice * count)
 			self:AddLine(price, 255, 255, 255)
+			SetCount(nil)
 		end
 	end
 end
