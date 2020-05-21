@@ -1,6 +1,7 @@
 local count = nil
 local debugMode = false
 local SetCount = function(itemCount) count = itemCount if debugMode then print(count) end end
+local ResetCount = function() count = nil end
 
 local SetItem = {
 	SetBagItem = function(_, bagID, slot)
@@ -19,17 +20,18 @@ local SetItem = {
 		local count = select(3, GetQuestLogRewardInfo(index))
 		SetCount(count)
 	end,
-	SetSendMailItem = function(_, index)
-		local count = select(4, GetSendMailItem(index))
-		SetCount(count)
-	end,
 	SetInboxItem = function(_, index, itemIndex)
 		local count
 		if itemIndex then
 			count = select(4, GetInboxItem(index, itemIndex))
 		else
-			count, _ = select(14, GetInboxHeaderInfo(index))
+			-- count, _ = select(14, GetInboxHeaderInfo(index))
+			count = select(2, select(14, GetInboxHeaderInfo(index)))
 		end
+		SetCount(count)
+	end,
+	SetSendMailItem = function(_, index)
+		local count = select(4, GetSendMailItem(index))
 		SetCount(count)
 	end,
 	SetTradePlayerItem = function(_, index)
@@ -55,12 +57,12 @@ local OnTooltipSetItem = function(self, ...)
 	if vendorPrice then
 		if vendorPrice == 0 then
 			self:AddLine("No sell price", 255, 255, 255)
-			SetCount(nil)
+			ResetCount()
 		else
 			count = count or 1
-			price = GetCoinTextureString(vendorPrice * count)
-			self:AddLine(price, 255, 255, 255)
-			SetCount(nil)
+			-- price = GetCoinTextureString(vendorPrice * count)
+			self:AddLine(GetCoinTextureString(vendorPrice * count), 255, 255, 255)
+			ResetCount()
 		end
 	end
 end
