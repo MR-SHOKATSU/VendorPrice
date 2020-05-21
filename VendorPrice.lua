@@ -24,11 +24,11 @@ local SetItem = {
 		SetCount(count)
 	end,
 	SetInboxItem = function(_, index, itemIndex)
-		local count, itemID
+		local count
 		if itemIndex then
 			count = select(4, GetInboxItem(index, itemIndex))
 		else
-			count, itemID = select(14, GetInboxHeaderInfo(index))
+			count, _ = select(14, GetInboxHeaderInfo(index))
 		end
 		SetCount(count)
 	end,
