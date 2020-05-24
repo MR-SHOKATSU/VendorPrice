@@ -1,4 +1,4 @@
-local debugMode = true
+local debugMode = false
 if debugMode then print("VendorPrice: Debug Mode loaded.") end
 
 local SetTooltipTable = {
