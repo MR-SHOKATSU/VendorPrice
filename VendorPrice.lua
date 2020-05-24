@@ -1,62 +1,64 @@
 local debugMode = false
 if debugMode then print("VendorPrice: Debug Mode loaded.") end
 
-local count = nil
-local SetCount = function(itemCount) count = itemCount if debugMode then print(count) end end
-local ResetCount = function() count = nil end
-
-local SetItemTable = {
-	SetBagItem = function(_, bagID, slot)
-		SetCount(select(2, GetContainerItemInfo(bagID, slot)))
+local SetTooltipTable = {
+	SetBagItem = function(self, bagID, slot)
+		self.count = select(2, GetContainerItemInfo(bagID, slot))
 	end,
-	SetAuctionItem = function(_, type, index)
-		SetCount(select(3, GetAuctionItemInfo(type, index)))
+	SetAuctionItem = function(self, type, index)
+		self.count = select(3, GetAuctionItemInfo(type, index))
 	end,
-	SetAuctionSellItem = function(_)
-		SetCount(select(3, GetAuctionSellItemInfo()))
+	SetAuctionSellItem = function(self)
+		self.count = select(3, GetAuctionSellItemInfo())
 	end,
-	SetQuestLogItem = function(_, _, index)
-		SetCount(select(3, GetQuestLogRewardInfo(index)))
+	SetQuestLogItem = function(self, _, index)
+		self.count = select(3, GetQuestLogRewardInfo(index))
 	end,
-	SetInboxItem = function(_, index, itemIndex)
+	SetInboxItem = function(self, index, itemIndex)
 		if itemIndex then
-			SetCount(select(4, GetInboxItem(index, itemIndex)))
+			self.count = select(4, GetInboxItem(index, itemIndex))
 		else
-			SetCount(select(1, select(14, GetInboxHeaderInfo(index))))
+			self.count = select(1, select(14, GetInboxHeaderInfo(index)))
 		end
 	end,
-	SetSendMailItem = function(_, index)
-		SetCount(select(4, GetSendMailItem(index)))
+	SetSendMailItem = function(self, index)
+		self.count = select(4, GetSendMailItem(index))
 	end,
-	SetTradePlayerItem = function(_, index)
-		SetCount(select(3, GetTradePlayerItemInfo(index)))
+	SetTradePlayerItem = function(self, index)
+		self.count = select(3, GetTradePlayerItemInfo(index))
 	end,
-	SetTradeTargetItem = function(_, index)
-		SetCount(select(3, GetTradeTargetItemInfo(index)))
+	SetTradeTargetItem = function(self, index)
+		self.count = select(3, GetTradeTargetItemInfo(index))
 	end,
 }
 
-for functionName, hookfunc in pairs (SetItemTable) do
+for functionName, hookfunc in pairs (SetTooltipTable) do
 	hooksecurefunc(GameTooltip, functionName, hookfunc)
 end
 
 local OnTooltipSetItem = function(self, ...)
 	-- immediately return if the player is interacting with a vendor
 	if MerchantFrame:IsShown() then return end
-	local link = select(2, self:GetItem())
+	local name, link = self:GetItem()
 	if not link then return end
+	local class = select(6, GetItemInfo(link))
 	local vendorPrice = select(11, GetItemInfo(link))
 	if vendorPrice then
-		if vendorPrice == 0 then
-			self:AddLine("No sell price", 255, 255, 255)
-			ResetCount()
-		else
-			count = count or 1
-			-- price = GetCoinTextureString(vendorPrice * count)
-			self:AddLine(GetCoinTextureString(vendorPrice * count), 255, 255, 255)
-			ResetCount()
+		if debugMode then print(name, self.count) end
+		-- eliminate the duplicate money line on recipes
+		if class == "Recipe" then
+			self.isFirstLine = not self.isFirstLine
+		end
+		if not self.isFirstLine then
+			if vendorPrice == 0 then
+				self:AddLine("No sell price", 255, 255, 255)	
+			else
+				self.count = self.count or 1
+				self:AddLine(GetCoinTextureString(vendorPrice * self.count), 255, 255, 255)
+			end
 		end
 	end
+	self.count = nil
 end
 
 for _, Tooltip in pairs {GameTooltip, ItemRefTooltip} do
