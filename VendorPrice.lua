@@ -1,4 +1,4 @@
-local debugMode = false
+local debugMode = true
 if debugMode then print("VendorPrice: Debug Mode loaded.") end
 
 local SetTooltipTable = {
@@ -44,12 +44,12 @@ local OnTooltipSetItem = function(self, ...)
 	local class = select(6, GetItemInfo(link))
 	local vendorPrice = select(11, GetItemInfo(link))
 	if vendorPrice then
-		if debugMode then print(name, self.count) end
+		if debugMode then print(name, self.count, self.shouldPrintLine) end
 		-- eliminate the duplicate money line on recipes
 		if class == "Recipe" then
-			self.isFirstLine = not self.isFirstLine
+			self.shouldPrintLine = not self.shouldPrintLine
 		end
-		if not self.isFirstLine then
+		if class ~= "Recipe" or not self.shouldPrintLine then
 			if vendorPrice == 0 then
 				self:AddLine("No sell price", 255, 255, 255)	
 			else
