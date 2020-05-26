@@ -6,3 +6,6 @@
 - Download the stable release from WoWInterface https://www.wowinterface.com/downloads/fileinfo.php?id=25582
 - Download the stable release from CurseForge https://www.curseforge.com/wow/addons/vendorprice/files/2962387
 - Unzip the Add-On file and put it under ~/Interface/AddOns, relaunch WoW.
+
+### Known Issues
+- Still buggy on recipes' tooltips
