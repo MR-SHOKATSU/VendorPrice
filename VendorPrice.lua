@@ -44,12 +44,16 @@ local OnTooltipSetItem = function(self, ...)
 	local class = select(6, GetItemInfo(link))
 	local vendorPrice = select(11, GetItemInfo(link))
 	if vendorPrice then
-		if debugMode then print(name, self.count, self.shouldPrintLine) end
+		if debugMode then print(name, self.count, self.invalidMoneyLine) end
 		-- eliminate the duplicate money line on recipes
 		if class == "Recipe" then
-			self.shouldPrintLine = not self.shouldPrintLine
+			if string.find(name, "Recipe") or string.find(name, "Pattern") 
+				or string.find(name, "Plans") or string.find(name, "Schematic") 
+				or string.find(name, "Manual") or string.find(name, "Formula") then
+				self.invalidMoneyLine = not self.invalidMoneyLine
+			end
 		end
-		if class ~= "Recipe" or not self.shouldPrintLine then
+		if class ~= "Recipe" or not self.invalidMoneyLine then
 			if vendorPrice == 0 then
 				self:AddLine("No sell price", 255, 255, 255)	
 			else
