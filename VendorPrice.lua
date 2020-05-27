@@ -43,7 +43,7 @@ local IfHasShowedMoneyLine = function(self, name, class)
 	if class == "Recipe" then
 		if string.find(name, "Recipe") or string.find(name, "Pattern") 
 		or string.find(name, "Plans") or string.find(name, "Schematic") 
-		or string.find(name, "Manual") or string.find(name, "Formula") then
+		or string.find(name, "Manual") then
 			-- print("flipping values of tooltip:"..name)
 			self.hasShowedMoneyLine = not self.hasShowedMoneyLine
 			return self.hasShowedMoneyLine
