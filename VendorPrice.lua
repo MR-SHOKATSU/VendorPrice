@@ -1,5 +1,5 @@
 local debugMode = false
-if debugMode then print("VendorPrice: Debug Mode loaded.") end
+if debugMode then print("VendorPrice: Debug Mode enabled.") end
 
 local SetTooltipTable = {
 	SetBagItem = function(self, bagID, slot)
@@ -39,13 +39,14 @@ for functionName, hookfunc in pairs (SetTooltipTable) do
 	hooksecurefunc(GameTooltip, functionName, hookfunc)
 end
 
-local validRecipe = function(self, name, class)
+local IfHasShowedMoneyLine = function(self, name, class)
 	if class == "Recipe" then
 		if string.find(name, "Recipe") or string.find(name, "Pattern") 
 		or string.find(name, "Plans") or string.find(name, "Schematic") 
 		or string.find(name, "Manual") or string.find(name, "Formula") then
-			self.invalidMoneyLine = not self.invalidMoneyLine
-			return self.invalidMoneyLine
+			-- print("flipping values of tooltip:"..name)
+			self.hasShowedMoneyLine = not self.hasShowedMoneyLine
+			return self.hasShowedMoneyLine
 		end
 	end 
 	-- return false
@@ -57,24 +58,22 @@ local OnTooltipSetItem = function(self, ...)
 	local name, link = self:GetItem()
 	if not link then return end
 	local class = select(6, GetItemInfo(link))
+	-- local maxStack = select(8, GetItemInfo(link))
 	local vendorPrice = select(11, GetItemInfo(link))
-	if vendorPrice then
-		if debugMode then print(name, self.count, self.invalidMoneyLine) end
-		-- eliminate the duplicate money line on recipes
-		-- if validRecipe(name, class) then
-		-- 	self.invalidMoneyLine = not self.invalidMoneyLine
+	if not vendorPrice then return end
+	if debugMode and self.count then print ("".. name .." (".. self.count ..")", self.hasShowedMoneyLine) end
+	if vendorPrice == 0 then
+		self:AddLine("No sell price", 255, 255, 255)
+	else
+		-- for functionName, hookfunc in pairs (SetTooltipTable) do
+		-- 	hooksecurefunc(GameTooltip, functionName, hookfunc)
 		-- end
-		-- if not validRecipe(name, class) or not self.invalidMoneyLine then
-		if not validRecipe(self, name, class) then
-			if vendorPrice == 0 then
-				self:AddLine("No sell price", 255, 255, 255)
-			else
-				self.count = self.count or 1
-				if self.count == 0 then
-					self.count = 1
-				end
-				self:AddLine(GetCoinTextureString(vendorPrice * self.count), 255, 255, 255)
+		if not IfHasShowedMoneyLine(self, name, class) then
+			self.count = self.count or 1
+			if self.count == 0 then
+				self.count = 1
 			end
+			self:AddLine(GetCoinTextureString(vendorPrice * self.count), 255, 255, 255)
 		end
 	end
 	self.count = nil
