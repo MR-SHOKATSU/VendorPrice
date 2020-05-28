@@ -1,4 +1,5 @@
-local debugMode = false
+local debugMode = true
+local showNoSellPrice = true
 if debugMode then print("VendorPrice: Debug Mode enabled.") end
 
 local SetTooltipTable = {
@@ -63,7 +64,9 @@ local OnTooltipSetItem = function(self, ...)
 	if not vendorPrice then return end
 	if debugMode and self.count then print ("".. name .." (".. self.count ..")", self.hasShowedMoneyLine) end
 	if vendorPrice == 0 then
-		self:AddLine("No sell price", 255, 255, 255)
+		if showNoSellPrice then 
+			self:AddLine("No sell price", 255, 255, 255)
+		end
 	else
 		-- for functionName, hookfunc in pairs (SetTooltipTable) do
 		-- 	hooksecurefunc(GameTooltip, functionName, hookfunc)
