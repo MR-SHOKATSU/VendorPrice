@@ -1,4 +1,4 @@
-local debugMode = true
+local debugMode = false
 local showNoSellPrice = true
 if debugMode then print("VendorPrice: Debug Mode enabled.") end
 
