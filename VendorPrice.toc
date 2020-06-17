@@ -1,5 +1,5 @@
 ## Interface: 11304
-## Version: 20.6.17
+## Version: 20.6.20
 ## Title: VendorPrice
 ## Notes: Displays the vendor price on item tooltips
 ## Author: Shokatsu
