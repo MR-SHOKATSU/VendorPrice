@@ -3,7 +3,6 @@ if debugMode then print("VendorPrice: Debug Mode enabled.") end
 
 local OptionTable = {}
 
-
 local SetTooltipTable = {
 	SetBagItem = function(self, bagID, slot)
 		self.count = select(2, GetContainerItemInfo(bagID, slot))
@@ -60,7 +59,6 @@ local OnTooltipSetItem = function(self, ...)
 	local name, link = self:GetItem()
 	if not link then return end
 	local class = select(6, GetItemInfo(link))
-	-- local maxStack = select(8, GetItemInfo(link))
 	local vendorPrice = select(11, GetItemInfo(link))
 	if not vendorPrice then return end
 	if debugMode and self.count then print ("".. name .." (".. self.count ..")", self.hasShowedMoneyLine) end

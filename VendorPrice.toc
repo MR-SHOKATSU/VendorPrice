@@ -1,7 +1,7 @@
 ## Interface: 11304
-## Version: 20.5.31
+## Version: 20.6.17
 ## Title: VendorPrice
-## Notes: Shows the vendor price when not at a vendor
+## Notes: Displays the vendor price on item tooltips
 ## Author: Shokatsu
 ## DefaultState: enabled
 
