@@ -63,7 +63,7 @@ local OnTooltipSetItem = function(self, ...)
 	if not vendorPrice then return end
 	if debugMode and self.count then print ("".. name .." (".. self.count ..")", self.hasShowedMoneyLine) end
 	if vendorPrice == 0 then
-		self:AddLine("No sell price", 255, 255, 255)
+		self:AddLine(NO_SELL_PRICE_TEXT, 255, 255, 255)
 	else
 		if not IfHasShowedMoneyLine(self, name, class) then
 			self.count = self.count or 1

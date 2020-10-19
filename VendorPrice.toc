@@ -1,8 +1,14 @@
 ## Interface: 11305
-## Version: 20.9.29
+## Version: 20.10.19
 ## Title: VendorPrice
 ## Notes: Displays the vendor price on item tooltips
 ## Author: Shokatsu
 ## DefaultState: enabled
+
+Locales\Locale_enUS.lua
+Locales\Locale_frFR.lua
+Locales\Locale_koKR.lua
+Locales\Locale_zhCN.lua
+Locales\Locale_zhTW.lua
 
 VendorPrice.lua
