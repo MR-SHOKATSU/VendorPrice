@@ -2,8 +2,9 @@
 ## Version: 22.01.18.0
 ## Title: VendorPrice
 ## Notes: Displays the vendor price on item tooltips
-## Author: Shokatsu, GovtGeek
+## Author: Shokatsu
 ## DefaultState: enabled
+## X-Contributors: GovtGeek
 
 Locales\Locale_enUS.lua
 Locales\Locale_frFR.lua
