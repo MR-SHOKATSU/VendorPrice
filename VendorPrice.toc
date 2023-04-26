@@ -1,9 +1,10 @@
-## Interface: 11305
-## Version: 20.10.19
+## Interface: 30401
+## Version: 22.01.18.0
 ## Title: VendorPrice
 ## Notes: Displays the vendor price on item tooltips
 ## Author: Shokatsu
 ## DefaultState: enabled
+## X-Contributors: GovtGeek
 
 Locales\Locale_enUS.lua
 Locales\Locale_frFR.lua
