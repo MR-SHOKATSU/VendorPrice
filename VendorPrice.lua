@@ -5,7 +5,10 @@ local OptionTable = {}
 
 local SetTooltipTable = {
 	SetBagItem = function(self, bagID, slot)
-		self.count = select(2, GetContainerItemInfo(bagID, slot))
+		--self.count = select(2, GetContainerItemInfo(bagID, slot))
+		self.count = 0
+		local info = C_Container.GetContainerItemInfo(bagID, slot)
+		if info ~= nil then self.count = info.stackCount end
 	end,
 	SetInventoryItem = function(self, unit, slot)
 		self.count = GetInventoryItemCount(unit, slot)
@@ -43,13 +46,13 @@ end
 
 local IfHasShowedMoneyLine = function(self, name, class)
 	if class == "Recipe" then
-		if string.find(name, "Recipe") or string.find(name, "Pattern") 
-		or string.find(name, "Plans") or string.find(name, "Schematic") 
+		if string.find(name, "Recipe") or string.find(name, "Pattern")
+		or string.find(name, "Plans") or string.find(name, "Schematic")
 		or string.find(name, "Manual") then
 			self.hasShowedMoneyLine = not self.hasShowedMoneyLine
 			return self.hasShowedMoneyLine
 		end
-	end 
+	end
 	-- return false
 end
 
